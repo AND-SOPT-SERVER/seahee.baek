@@ -19,11 +19,12 @@ public class DiaryController {
     }
 
     // APIS
-    final List<String> getList() {
-        return null;
+    final List<Diary> getList() {
+        return diaryService.getDiaryList();
     }
 
     final void post(final String body) {
+        diaryService.writeDiary(body);
 
     }
 

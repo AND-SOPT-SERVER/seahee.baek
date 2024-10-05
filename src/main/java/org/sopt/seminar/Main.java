@@ -1,6 +1,6 @@
 package org.sopt.seminar;
 
-import org.sopt.seminar.DiaryController;
+//import org.sopt.semina1.DiaryController;
 
 import java.io.*;
 
@@ -66,13 +66,18 @@ public class Main {
                 case RUNNING -> {
                     switch (selected) {
                         case "GET" -> {
-                            server.getList().forEach(line -> {
+                            server.getList().forEach(diary -> {
                                 try {
-                                    ConsoleIO.printLine(line);
+                                    ConsoleIO.printLine(diary.getId() + " : " + diary.getBody());
                                 } catch (IOException e) {
                                     throw new RuntimeException(e);
                                 }
                             });
+                        }
+                        case "POST" -> {
+                            ConsoleIO.printLine("한 줄 일기를 작성해주세요!");
+                            final String input = ConsoleIO.readLine();
+                            server.post(input);
                         }
 
                         case "DELETE" -> {
