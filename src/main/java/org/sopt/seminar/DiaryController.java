@@ -29,7 +29,7 @@ public class DiaryController {
     }
 
     final void delete(final String id) {
-
+        diaryService.deleteDiary(Long.parseLong(id));
     }
 
     final void patch(final String id, final String body) {

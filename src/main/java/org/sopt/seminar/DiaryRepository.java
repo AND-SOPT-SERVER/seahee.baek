@@ -17,6 +17,10 @@ public class DiaryRepository {
         storage.put(id, diary.getBody());
     }
 
+    void delete(final Long id){
+        storage.remove(id);
+    }
+
 
     List<Diary> findAll() {
         //diary를 담을 자료구조
@@ -25,11 +29,12 @@ public class DiaryRepository {
         //저장한 값을 불러오는 반복 구조
         for (long index = 1; index <= numbering.intValue(); index++) {
             final String body = storage.get(index);
-
-            diaryList.add(new Diary(index, body));
-
+            if (body != null) {
+                diaryList.add(new Diary(index, body));
+            }
         }
         //불러온 자료구조 응답
         return diaryList;
     }
+
 }

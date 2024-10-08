@@ -15,4 +15,8 @@ public class DiaryService {
     List<Diary> getDiaryList() {
         return diaryRepository.findAll();
     }
+
+    void deleteDiary(Long id){
+        diaryRepository.delete(id);
+    }
 }
