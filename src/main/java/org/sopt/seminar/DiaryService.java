@@ -17,6 +17,10 @@ public class DiaryService {
     }
 
     void deleteDiary(Long id){
-        diaryRepository.delete(id);
+        diaryRepository.del(id);
+    }
+
+    void modifyDiary(Long id, String body){
+        diaryRepository.mod(id, body);
     }
 }

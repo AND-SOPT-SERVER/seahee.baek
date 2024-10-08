@@ -33,7 +33,7 @@ public class DiaryController {
     }
 
     final void patch(final String id, final String body) {
-
+        diaryService.modifyDiary(Long.parseLong(id), body);
     }
 
     enum Status {

@@ -17,8 +17,16 @@ public class DiaryRepository {
         storage.put(id, diary.getBody());
     }
 
-    void delete(final Long id){
+    void del(final Long id){
         storage.remove(id);
+    }
+
+    void mod(Long id, String body){
+        if(storage.get(id)==null){
+            System.out.println("잘못된 요청입니다!!");
+        } else {
+            storage.put(id, body);
+        }
     }
 
 
