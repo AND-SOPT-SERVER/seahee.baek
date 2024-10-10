@@ -23,6 +23,10 @@ public class DiaryController {
         return diaryService.getDiaryList();
     }
 
+    final List<DeletedDiary> getDeletedDiary(){
+        return diaryService.getDeletedDiaryList();
+    }
+
     final void post(final String body) {
         diaryService.writeDiary(body);
 
@@ -34,6 +38,10 @@ public class DiaryController {
 
     final void patch(final String id, final String body) {
         diaryService.modifyDiary(Long.parseLong(id), body);
+    }
+
+    final void restore(final String id){
+        diaryService.restoreDiary(Long.parseLong(id));
     }
 
     enum Status {

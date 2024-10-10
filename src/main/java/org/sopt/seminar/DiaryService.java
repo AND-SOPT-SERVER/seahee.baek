@@ -16,11 +16,17 @@ public class DiaryService {
         return diaryRepository.findAll();
     }
 
+    List<DeletedDiary> getDeletedDiaryList() { return diaryRepository.findDelAll(); }
+
     void deleteDiary(Long id){
         diaryRepository.del(id);
     }
 
     void modifyDiary(Long id, String body){
         diaryRepository.mod(id, body);
+    }
+
+    void restoreDiary(Long id){
+        diaryRepository.rest(id);
     }
 }
