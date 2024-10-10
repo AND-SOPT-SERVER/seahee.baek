@@ -29,4 +29,8 @@ public class DiaryService {
     void restoreDiary(Long id){
         diaryRepository.rest(id);
     }
+
+    void delExpiredDiary(){
+        diaryRepository.expire();
+    }
 }

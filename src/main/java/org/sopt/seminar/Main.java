@@ -60,6 +60,7 @@ public class Main {
         }
 
         private void run() throws IOException {
+            server.delExpiredDiary();
             switch (server.getStatus()) {
                 case READY, FINISHED, ERROR -> throw new UIException();
 

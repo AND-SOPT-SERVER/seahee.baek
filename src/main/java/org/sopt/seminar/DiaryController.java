@@ -44,6 +44,10 @@ public class DiaryController {
         diaryService.restoreDiary(Long.parseLong(id));
     }
 
+    final void delExpiredDiary(){
+        diaryService.delExpiredDiary();
+    }
+
     enum Status {
         READY,
         RUNNING,

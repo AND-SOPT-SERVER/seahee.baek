@@ -19,9 +19,13 @@ public class DeletedDiary {
         return body;
     }
 
-    public String getDelTime() {
+    public String getFormattedDelTime() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         String ftime = delTime.format(formatter);
         return ftime;
+    }
+
+    public LocalDateTime getDelTime(){
+        return delTime;
     }
 }

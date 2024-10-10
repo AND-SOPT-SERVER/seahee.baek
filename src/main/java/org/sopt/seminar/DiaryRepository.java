@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import org.sopt.seminar.DeletedDiary;
+import java.time.LocalDateTime;
 
 //db와 connection을 하는 역할
 public class DiaryRepository {
@@ -36,6 +37,18 @@ public class DiaryRepository {
     void rest(Long id){
         DeletedDiary deletedDiary = delStorage.remove(id);
         storage.put(id, deletedDiary.getBody());
+    }
+
+    public void expire(){
+        LocalDateTime now = LocalDateTime.now(); //현재 시간을 불러오기
+        delStorage.entrySet().removeIf(entry -> {
+            //entrySet : Map의 모든 항목 Set으로 반환.
+            //removeIf : 조건 만족하는(return이 True인) 항목 삭제.
+            //entry -> {...} : 람다 표현식.
+            DeletedDiary deletedDiary = entry.getValue();
+            return deletedDiary.getDelTime().plusDays(2).isBefore(now);
+            //deletedDiary 객체의 deltime을 가져오고, 이틀을 더한 시간이 현재 시간보다 전이라면 => 삭제된지 이틀이 지났다면
+        });
     }
 
     List<DeletedDiary> findDelAll() {
