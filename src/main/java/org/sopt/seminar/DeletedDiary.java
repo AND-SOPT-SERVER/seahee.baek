@@ -1,5 +1,6 @@
 package org.sopt.seminar;
 import java.time.LocalDateTime; //시간 관련 연산
+import java.time.format.DateTimeFormatter; //시간 관련 형식 포매터
 
 public class DeletedDiary {
     private final Long id;
@@ -18,6 +19,9 @@ public class DeletedDiary {
         return body;
     }
 
-    public final LocalDateTime getDelTime() { return delTime; }
-
+    public String getDelTime() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String ftime = delTime.format(formatter);
+        return ftime;
+    }
 }
