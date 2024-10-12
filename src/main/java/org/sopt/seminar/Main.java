@@ -60,6 +60,7 @@ public class Main {
         }
 
         private void run() throws IOException {
+            server.delExpiredDiary();
             switch (server.getStatus()) {
                 case READY, FINISHED, ERROR -> throw new UIException();
 
@@ -97,6 +98,20 @@ public class Main {
                         case "FINISH" -> {
                             server.finish();
                         }
+
+                        case "RESTORE" -> {
+                            ConsoleIO.printLine("복구 가능한 일기 목록입니다.");
+                            server.getDeletedDiary().forEach(delDiary -> {
+                                try {
+                                    ConsoleIO.printLine(delDiary.getId() + " : " + delDiary.getBody() + " | "+ delDiary.getDelTime());
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            });
+                            ConsoleIO.printLine("복구할 일기의 id를 입력하세요!");
+                            final String input = ConsoleIO.readLine();
+                            server.restore(input);
+                        }
                         default -> {
                             throw new InvalidInputException();
                         }
@@ -125,6 +140,7 @@ public class Main {
                     - POST : 일기 작성하기
                     - DELETE : 일기 제거하기
                     - PATCH : 일기 수정하기
+                    - RESTORE : 일기 복구하기
                     """;
 
         }
