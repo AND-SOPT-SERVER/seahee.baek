@@ -4,8 +4,8 @@ import org.sopt.diary.service.Diary;
 import org.sopt.diary.service.DiaryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.sopt.diary.exception.DiaryLengthException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,7 +19,13 @@ public class DiaryController {
 
     @PostMapping("/diaries")
     void post(@RequestBody DiaryRequest diaryRequest) {
-        diaryService.createDiary(diaryRequest.getTitle(), diaryRequest.getContent());
+            if (diaryRequest.getContent().length() > 30) {
+                throw new DiaryLengthException();
+            }
+            else {
+                diaryService.createDiary(diaryRequest.getTitle(), diaryRequest.getContent());
+            }
+
     }
 
     @GetMapping("/diaries")
