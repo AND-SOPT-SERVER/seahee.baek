@@ -12,7 +12,7 @@ public class Diary {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.date = LocalDate.now();
+        this.date = date;
     }
 
     public Diary(long id, String title){
