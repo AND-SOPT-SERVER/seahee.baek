@@ -48,12 +48,11 @@ public class DiaryService {
     }
 
     public void updateDiary(Long id, String title, String content){
-        if (diaryRepository.existsById(id)){
-            DiaryEntity diaryEntity = diaryRepository.findById(id).orElseThrow();
+
+            DiaryEntity diaryEntity = diaryRepository.findById(id).orElseThrow(()->new IllegalArgumentException());
             diaryEntity.setTitle(title);
             diaryEntity.setContent(content);
             diaryRepository.save(diaryEntity);
-        }
     }
 
 }

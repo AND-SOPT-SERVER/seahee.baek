@@ -31,15 +31,4 @@ public class DiaryResponse {
         return id;
     }
 
-    public String getTitle(){
-        return title;
-    }
-
-    public String getContent(){
-        return content;
-    }
-
-    public LocalDate getDate(){
-        return date;
-    }
 }
