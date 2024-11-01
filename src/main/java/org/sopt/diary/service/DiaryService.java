@@ -4,12 +4,11 @@ package org.sopt.diary.service;
 
 import org.sopt.diary.repository.DiaryEntity;
 import org.sopt.diary.repository.DiaryRepository;
+import org.sopt.diary.repository.UsersEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class DiaryService {
@@ -20,8 +19,8 @@ public class DiaryService {
         this.diaryRepository = diaryRepository;
     }
     //다이어리를 만드는 처리
-    public void createDiary(String title, String content){
-        diaryRepository.save(new DiaryEntity(title, content, LocalDate.now()));
+    public void createDiary(String title, String content, Boolean isPrivate, UsersEntity user){
+        diaryRepository.save(new DiaryEntity(title, content, LocalDate.now(), isPrivate, user));
     }
 
 
@@ -40,7 +39,7 @@ public class DiaryService {
 
     public Diary getDiary(Long id){
         DiaryEntity diaryEntity = diaryRepository.findById(id).orElseThrow(()-> new RuntimeException("예외1"));
-        return new Diary(diaryEntity.getId(), diaryEntity.getTitle(), diaryEntity.getContent(), diaryEntity.getDate());
+        return new Diary(diaryEntity.getId(), diaryEntity.getTitle(), diaryEntity.getContent(), diaryEntity.getCreated_at());
     }
 
     public void deleteDiary(Long id){

@@ -3,9 +3,12 @@
 package org.sopt.diary.repository;
 
 import jakarta.persistence.*;
+
+import java.math.BigInteger;
 import java.time.LocalDate;
 
 @Entity
+@Table(name="diary")
 public class DiaryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,17 +21,25 @@ public class DiaryEntity {
     public String content;
 
     @Column
-    public LocalDate date;
+    public LocalDate created_at;
 
+    @Column
+    public Boolean isPrivate;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UsersEntity user;
 
     public DiaryEntity() {
 
     }
 
-    public DiaryEntity(String title, String content, LocalDate date) {
+    public DiaryEntity(String title, String content, LocalDate created_at, Boolean isPrivate, UsersEntity user) {
         this.title = title;
         this.content = content;
-        this.date = date;
+        this.created_at = created_at;
+        this.isPrivate = isPrivate;
+        this.user = user;
     }
 
     public String getTitle(){
@@ -39,13 +50,17 @@ public class DiaryEntity {
         return this.content;
     }
 
-    public long getId(){
+    public Long getId(){
         return this.id;
     }
 
-    public LocalDate getDate(){
-        return date;
+    public LocalDate getCreated_at(){
+        return created_at;
     }
+
+    public Boolean getIsPrivate(){ return isPrivate; }
+
+    public UsersEntity getUser(){ return user; }
 
     public void setTitle(String title){
         this.title = title;

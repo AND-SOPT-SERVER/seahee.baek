@@ -1,7 +1,9 @@
 package org.sopt.diary.api;
 
+import org.apache.catalina.User;
 import org.sopt.diary.service.Diary;
 import org.sopt.diary.service.DiaryService;
+import org.sopt.diary.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.sopt.diary.exception.DiaryLengthException;
