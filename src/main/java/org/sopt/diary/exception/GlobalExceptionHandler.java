@@ -2,7 +2,6 @@ package org.sopt.diary.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -11,6 +10,7 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
 
     // 400 Bad Request - 일기 내용 글자 30자 초과시
     @ExceptionHandler(DiaryLengthException.class)
@@ -37,5 +37,23 @@ public class GlobalExceptionHandler {
         errorResponse.put("code", HttpStatus.INTERNAL_SERVER_ERROR.value());
         errorResponse.put("message", "서버 내부 오류입니다.");
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(EmailFormatException.class)
+    public ResponseEntity<Map<String, Object>> handleEmailFormatException(EmailFormatException ex) {
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("code", ex.getCode());
+        errorResponse.put("message", ex.getMessage());
+        errorResponse.put("data", new HashMap<>());
+        return new ResponseEntity<>(errorResponse, ex.getStatus());
+    }
+
+    @ExceptionHandler(IncorrectPasswordException.class)
+    public ResponseEntity<Map<String, Object>> handleIncorrectPasswordException(IncorrectPasswordException ex) {
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("code", ex.getCode());
+        errorResponse.put("message", ex.getMessage());
+        errorResponse.put("data", new HashMap<>());
+        return new ResponseEntity<>(errorResponse, ex.getStatus());
     }
 }
