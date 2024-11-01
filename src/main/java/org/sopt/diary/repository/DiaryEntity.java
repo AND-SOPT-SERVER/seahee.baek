@@ -5,10 +5,12 @@ package org.sopt.diary.repository;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="diary")
 public class DiaryEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
@@ -20,10 +22,14 @@ public class DiaryEntity {
     public String content;
 
     @Column
-    public LocalDate created_at;
+    public LocalDateTime created_at;
+
+    //@Column
+    //public Boolean isPrivate;
 
     @Column
-    public Boolean isPrivate;
+    @Enumerated(value = EnumType.STRING)
+    private DiaryScope scope;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -33,11 +39,11 @@ public class DiaryEntity {
 
     }
 
-    public DiaryEntity(String title, String content, LocalDate created_at, Boolean isPrivate, UserEntity user) {
+    public DiaryEntity(String title, String content, LocalDateTime created_at, DiaryScope scope, UserEntity user) {
         this.title = title;
         this.content = content;
         this.created_at = created_at;
-        this.isPrivate = isPrivate;
+        this.scope = scope;
         this.user = user;
     }
 
@@ -53,11 +59,11 @@ public class DiaryEntity {
         return this.id;
     }
 
-    public LocalDate getCreated_at(){
+    public LocalDateTime getCreated_at(){
         return created_at;
     }
 
-    public Boolean getIsPrivate(){ return isPrivate; }
+    public DiaryScope getScope(){ return scope; }
 
     public UserEntity getUser(){ return user; }
 

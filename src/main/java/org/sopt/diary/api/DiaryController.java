@@ -1,6 +1,6 @@
 package org.sopt.diary.api;
 
-import org.apache.catalina.User;
+import org.sopt.diary.repository.UserEntity;
 import org.sopt.diary.service.Diary;
 import org.sopt.diary.service.DiaryService;
 import org.sopt.diary.service.UserService;
@@ -14,9 +14,11 @@ import java.util.List;
 public class DiaryController {
 
     private final DiaryService diaryService;
+    private final UserService userService;
 
-    public DiaryController(DiaryService diaryService) {
+    public DiaryController(DiaryService diaryService, UserService userService) {
         this.diaryService = diaryService;
+        this.userService = userService;
     }
 
     @PostMapping("/diaries")
@@ -25,7 +27,9 @@ public class DiaryController {
                 throw new DiaryLengthException();
             }
             else {
-                diaryService.createDiary(diaryRequest.getTitle(), diaryRequest.getContent(), diaryRequest.getIsPrivate(), diaryRequest.getUser() );
+                UserEntity user = userService.findUserById(diaryRequest.getUser_id())
+                                .orElseThrow(()-> new RuntimeException("일치하는 유저가 없습니다."));
+                diaryService.createDiary(diaryRequest.getTitle(), diaryRequest.getContent(), diaryRequest.getScope(), user);
             }
 
     }
@@ -44,7 +48,7 @@ public class DiaryController {
         Diary diary = diaryService.getDiary(id);
 
         return ResponseEntity.ok(
-                new DiaryResponse(diary.getId(), diary.getTitle(), diary.getContent(), diary.getDate())
+                new DiaryResponse(diary.getId(), diary.getTitle(), diary.getContent(), diary.getCreated_at(), diary.getScope(), diary.getUser())
         );
     }
 

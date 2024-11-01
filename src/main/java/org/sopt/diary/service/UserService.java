@@ -33,4 +33,8 @@ public class UserService {
             throw new IncorrectPasswordException();
         }
     }
+
+    public Optional<UserEntity> findUserById(Long userId) {
+        return userRepository.findById(userId);
+    }
 }
