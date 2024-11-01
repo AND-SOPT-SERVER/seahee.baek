@@ -1,31 +1,36 @@
 package org.sopt.diary.service;
 
-import org.sopt.diary.api.UsersRequest;
-import org.sopt.diary.repository.UsersEntity;
-import org.sopt.diary.repository.UsersRepository;
+import org.sopt.diary.exception.IncorrectPasswordException;
+import org.sopt.diary.repository.UserEntity;
+import org.sopt.diary.repository.UserRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.Optional;
 
-public class UserService {
-    private final UsersRepository usersRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    public UserService(UsersRepository usersRepository) {
-        this.usersRepository = usersRepository;
+@Component
+public class UserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public void createUser(String name, String password, String nickname, String email){
-        usersRepository.save(new UsersEntity(name, password, nickname, email));
+        userRepository.save(new UserEntity(name, password, nickname, email));
     }
 
-    public Optional<Long> login(String email, String password){
-        Optional<UsersEntity> user = usersRepository.findUser(email);
-        // == 대신 'equals' 사용하기
-        if (user.isPresent() && Objects.equals(user.get().getPassword(), password)){
+    public Optional<Long> login(String email, String password) {
+        Optional<UserEntity> user = userRepository.findByEmail(email);
+
+        if (user.isPresent() && Objects.equals(user.get().getPassword(), password)) {
             return Optional.of(user.get().getId());
-        }
-        else{
-            //예외 설정하기
+        } else {
+            throw new IncorrectPasswordException();
         }
     }
 }

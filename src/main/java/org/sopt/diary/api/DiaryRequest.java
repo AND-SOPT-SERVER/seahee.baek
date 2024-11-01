@@ -1,13 +1,13 @@
 package org.sopt.diary.api;
 
-import org.sopt.diary.repository.UsersEntity;
+import org.sopt.diary.repository.UserEntity;
 
 public class DiaryRequest {
 
     private String title;
     private String content;
     private Boolean isPrivate;
-    private UsersEntity user;
+    private UserEntity user;
 
     public String getTitle(){
         return title;
@@ -19,6 +19,6 @@ public class DiaryRequest {
 
     public Boolean getIsPrivate(){ return isPrivate; }
 
-    public UsersEntity getUser(){ return user; }
+    public UserEntity getUser(){ return user; }
 
 }

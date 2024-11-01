@@ -4,7 +4,7 @@ package org.sopt.diary.service;
 
 import org.sopt.diary.repository.DiaryEntity;
 import org.sopt.diary.repository.DiaryRepository;
-import org.sopt.diary.repository.UsersEntity;
+import org.sopt.diary.repository.UserEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -19,7 +19,7 @@ public class DiaryService {
         this.diaryRepository = diaryRepository;
     }
     //다이어리를 만드는 처리
-    public void createDiary(String title, String content, Boolean isPrivate, UsersEntity user){
+    public void createDiary(String title, String content, Boolean isPrivate, UserEntity user){
         diaryRepository.save(new DiaryEntity(title, content, LocalDate.now(), isPrivate, user));
     }
 

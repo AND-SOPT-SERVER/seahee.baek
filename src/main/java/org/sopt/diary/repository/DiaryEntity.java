@@ -4,7 +4,6 @@ package org.sopt.diary.repository;
 
 import jakarta.persistence.*;
 
-import java.math.BigInteger;
 import java.time.LocalDate;
 
 @Entity
@@ -28,13 +27,13 @@ public class DiaryEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UsersEntity user;
+    private UserEntity user;
 
     public DiaryEntity() {
 
     }
 
-    public DiaryEntity(String title, String content, LocalDate created_at, Boolean isPrivate, UsersEntity user) {
+    public DiaryEntity(String title, String content, LocalDate created_at, Boolean isPrivate, UserEntity user) {
         this.title = title;
         this.content = content;
         this.created_at = created_at;
@@ -60,7 +59,7 @@ public class DiaryEntity {
 
     public Boolean getIsPrivate(){ return isPrivate; }
 
-    public UsersEntity getUser(){ return user; }
+    public UserEntity getUser(){ return user; }
 
     public void setTitle(String title){
         this.title = title;

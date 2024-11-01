@@ -1,6 +1,6 @@
 package org.sopt.diary.api;
 
-public class UsersLogInRequest {
+public class UserLogInRequest {
 
     private String email;
     private String password;

@@ -25,7 +25,7 @@ public class DiaryController {
                 throw new DiaryLengthException();
             }
             else {
-                diaryService.createDiary(diaryRequest.getTitle(), diaryRequest.getContent());
+                diaryService.createDiary(diaryRequest.getTitle(), diaryRequest.getContent(), diaryRequest.getIsPrivate(), diaryRequest.getUser() );
             }
 
     }

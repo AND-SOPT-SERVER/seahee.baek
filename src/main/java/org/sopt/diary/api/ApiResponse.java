@@ -10,4 +10,16 @@ public class ApiResponse {
         this.message = message;
         this.data = data;
     }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public Object getData() {
+        return data;
+    }
 }

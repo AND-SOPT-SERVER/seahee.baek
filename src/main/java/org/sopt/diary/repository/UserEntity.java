@@ -1,11 +1,13 @@
 package org.sopt.diary.repository;
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
-@Table(name="users")
-public class UsersEntity {
+@Table(name="user")
+public class UserEntity {
+
+    public UserEntity(){
+        //기본생성자
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +22,10 @@ public class UsersEntity {
     @Column
     public String nickname;
 
-    @Column
+    @Column(unique = true)
     public String email;
 
-    public UsersEntity(String name, String password, String nickname, String email){
+    public UserEntity(String name, String password, String nickname, String email){
         this.name = name;
         this.password = password;
         this.nickname = nickname;
