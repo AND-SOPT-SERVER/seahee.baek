@@ -30,11 +30,11 @@ public class DiaryEntity {
 
     @Column
     @Enumerated(value = EnumType.STRING)
-    private DiaryScope scope;
+    public DiaryScope scope;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserEntity user;
+    public UserEntity user;
 
     public DiaryEntity() {
 
@@ -75,4 +75,8 @@ public class DiaryEntity {
     public void setContent(String content){
         this.content = content;
     }
+
+    public void setScope(DiaryScope scope){ this.scope = scope; }
+
+    public void setUser(UserEntity user){ this.user = user; }
 }

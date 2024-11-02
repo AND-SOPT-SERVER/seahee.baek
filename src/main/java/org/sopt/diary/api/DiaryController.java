@@ -1,5 +1,7 @@
 package org.sopt.diary.api;
 
+import org.sopt.diary.exception.UnauthorizatedException;
+import org.sopt.diary.repository.DiaryRepository;
 import org.sopt.diary.repository.UserEntity;
 import org.sopt.diary.service.Diary;
 import org.sopt.diary.service.DiaryService;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.sopt.diary.exception.DiaryLengthException;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class DiaryController {
@@ -22,14 +25,23 @@ public class DiaryController {
     }
 
     @PostMapping("/diaries")
-    void post(@RequestBody DiaryRequest diaryRequest) {
-            if (diaryRequest.getContent().length() > 30) {
-                throw new DiaryLengthException();
+    public ResponseEntity<ApiResponse>  post(@RequestHeader("user_id") String user_id, @RequestBody DiaryRequest diaryRequest) {
+
+            if (diaryRequest.getTitle().length() > 15) {
+                throw new DiaryLengthException(true);
+            }
+            else if(diaryRequest.getContent().length()>30){
+                throw new DiaryLengthException(false);
             }
             else {
-                UserEntity user = userService.findUserById(diaryRequest.getUser_id())
+
+                Long writer_id = diaryRequest.getUser_id();
+                UserEntity user = userService.findUserById(writer_id)
                                 .orElseThrow(()-> new RuntimeException("일치하는 유저가 없습니다."));
                 diaryService.createDiary(diaryRequest.getTitle(), diaryRequest.getContent(), diaryRequest.getScope(), user);
+
+                ApiResponse response = new ApiResponse(201, "일기 작성 완료", null);
+                return ResponseEntity.ok(response);
             }
 
     }
@@ -54,13 +66,28 @@ public class DiaryController {
 
 
     @PatchMapping("/diaries/{id}")
-    public void updateDiary(@PathVariable Long id, @RequestBody DiaryRequest diaryRequest){
-        diaryService.updateDiary(id, diaryRequest.getTitle(), diaryRequest.getContent());
+    public void updateDiary(@RequestHeader("user_id") String user_id, @PathVariable Long id, @RequestBody DiaryRequest diaryRequest){
+
+        Diary diary = diaryService.getDiary(id);
+
+        if (!diary.getUser().getId().equals(Long.valueOf(user_id))){
+            throw new UnauthorizatedException();
+        }
+        else{
+            diaryService.updateDiary(id, diaryRequest.getTitle(), diaryRequest.getContent(), diaryRequest.getScope());
+        }
     }
 
     @DeleteMapping("/diaries/{id}")
-    public void delete(@PathVariable Long id){
-        diaryService.deleteDiary(id);
+    public void delete(@RequestHeader("user_id") String user_id, @PathVariable Long id){
+        Diary diary = diaryService.getDiary(id);
+
+        if (!diary.getUser().getId().equals(Long.valueOf(user_id))){
+            throw new UnauthorizatedException();
+        }
+        else{
+            diaryService.deleteDiary(id);
+        }
     }
 
 }

@@ -48,11 +48,12 @@ public class DiaryService {
         diaryRepository.deleteById(id);
     }
 
-    public void updateDiary(Long id, String title, String content){
+    public void updateDiary(Long id, String title, String content, DiaryScope scope){
 
             DiaryEntity diaryEntity = diaryRepository.findById(id).orElseThrow(()->new IllegalArgumentException());
             diaryEntity.setTitle(title);
             diaryEntity.setContent(content);
+            diaryEntity.setScope(scope);;
             diaryRepository.save(diaryEntity);
     }
 
