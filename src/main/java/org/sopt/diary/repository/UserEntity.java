@@ -2,7 +2,7 @@ package org.sopt.diary.repository;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="user")
+@Table(name="users")
 public class UserEntity {
 
     public UserEntity(){
@@ -11,6 +11,7 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     public Long id;
 
     @Column

@@ -8,14 +8,15 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="diary")
+@Table(name="diary_jpa_entity")
 public class DiaryEntity {
 
     @Id
+    @Column(name = "diary_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @Column
+    @Column(name="diary_title")
     public String title;
 
     @Column
