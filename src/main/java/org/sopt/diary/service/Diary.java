@@ -1,26 +1,36 @@
 package org.sopt.diary.service;
 
-import java.time.LocalDate;
+import org.sopt.diary.repository.DiaryScope;
+import org.sopt.diary.repository.UserEntity;
+
+import java.time.LocalDateTime;
 
 public class Diary {
     private final Long id;
     private final String title;
     private final String content;
-    private final LocalDate date;
+    private final LocalDateTime created_at;
+    private final DiaryScope scope;
+    private final UserEntity user;
 
-    public Diary(long id, String title, String content, LocalDate date){
+    public Diary(long id, String title, String content, LocalDateTime created_at, DiaryScope scope, UserEntity user){
         this.id = id;
         this.title = title;
         this.content = content;
-        this.date = LocalDate.now();
+        this.created_at = created_at;
+        this.scope = scope;
+        this.user = user;
     }
 
     public Diary(long id, String title){
         this.id=id;
         this.title=title;
         this.content=null;
-        this.date=null;
+        this.created_at=null;
+        this.scope = null;
+        this.user = null;
     }
+
 
     public long getId(){
         return id;
@@ -34,7 +44,11 @@ public class Diary {
         return content;
     }
 
-    public LocalDate getDate(){
-        return date;
+    public LocalDateTime getCreated_at(){
+        return created_at;
     }
+
+    public UserEntity getUser(){ return user; }
+
+    public DiaryScope getScope() {return scope;}
 }

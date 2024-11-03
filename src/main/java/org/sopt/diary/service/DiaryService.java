@@ -4,12 +4,13 @@ package org.sopt.diary.service;
 
 import org.sopt.diary.repository.DiaryEntity;
 import org.sopt.diary.repository.DiaryRepository;
+import org.sopt.diary.repository.DiaryScope;
+import org.sopt.diary.repository.UserEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class DiaryService {
@@ -20,8 +21,8 @@ public class DiaryService {
         this.diaryRepository = diaryRepository;
     }
     //다이어리를 만드는 처리
-    public void createDiary(String title, String content){
-        diaryRepository.save(new DiaryEntity(title, content, LocalDate.now()));
+    public void createDiary(String title, String content, DiaryScope scope, UserEntity user){
+        diaryRepository.save(new DiaryEntity(title, content, LocalDateTime.now(), scope, user));
     }
 
 
@@ -40,20 +41,20 @@ public class DiaryService {
 
     public Diary getDiary(Long id){
         DiaryEntity diaryEntity = diaryRepository.findById(id).orElseThrow(()-> new RuntimeException("예외1"));
-        return new Diary(diaryEntity.getId(), diaryEntity.getTitle(), diaryEntity.getContent(), diaryEntity.getDate());
+        return new Diary(diaryEntity.getId(), diaryEntity.getTitle(), diaryEntity.getContent(), diaryEntity.getCreated_at(), diaryEntity.getScope(), diaryEntity.getUser());
     }
 
     public void deleteDiary(Long id){
         diaryRepository.deleteById(id);
     }
 
-    public void updateDiary(Long id, String title, String content){
-        if (diaryRepository.existsById(id)){
-            DiaryEntity diaryEntity = diaryRepository.findById(id).orElseThrow();
+    public void updateDiary(Long id, String title, String content, DiaryScope scope){
+
+            DiaryEntity diaryEntity = diaryRepository.findById(id).orElseThrow(()->new IllegalArgumentException());
             diaryEntity.setTitle(title);
             diaryEntity.setContent(content);
+            diaryEntity.setScope(scope);;
             diaryRepository.save(diaryEntity);
-        }
     }
 
 }
