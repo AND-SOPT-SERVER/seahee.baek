@@ -1,7 +1,6 @@
 package org.sopt.diary.api;
 
-import org.sopt.diary.exception.UnauthorizatedException;
-import org.sopt.diary.repository.DiaryRepository;
+import org.sopt.diary.exception.UnauthorizedException;
 import org.sopt.diary.repository.UserEntity;
 import org.sopt.diary.service.Diary;
 import org.sopt.diary.service.DiaryService;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.sopt.diary.exception.DiaryLengthException;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 public class DiaryController {
@@ -71,7 +69,7 @@ public class DiaryController {
         Diary diary = diaryService.getDiary(id);
 
         if (!diary.getUser().getId().equals(Long.valueOf(user_id))){
-            throw new UnauthorizatedException();
+            throw new UnauthorizedException();
         }
         else{
             diaryService.updateDiary(id, diaryRequest.getTitle(), diaryRequest.getContent(), diaryRequest.getScope());
@@ -83,7 +81,7 @@ public class DiaryController {
         Diary diary = diaryService.getDiary(id);
 
         if (!diary.getUser().getId().equals(Long.valueOf(user_id))){
-            throw new UnauthorizatedException();
+            throw new UnauthorizedException();
         }
         else{
             diaryService.deleteDiary(id);

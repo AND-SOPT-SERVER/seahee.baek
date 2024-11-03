@@ -69,8 +69,8 @@ public class GlobalExceptionHandler {
 
 
     // 40300 권한이 없는 사용자의 요청
-    @ExceptionHandler(UnauthorizatedException.class)
-    public ResponseEntity<Map<String, Object>> handleUnauthorizatedExeption(UnauthorizatedException ex) {
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<Map<String, Object>> handleUnauthorizatedExeption(UnauthorizedException ex) {
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("code", ex.getCode());
         errorResponse.put("message", ex.getMessage());

@@ -24,11 +24,13 @@ public class UserController {
 
     @PostMapping("/user/signup")
     void post(@RequestBody UserRequest usersRequest){
+        if (!usersRequest.getEmail().contains("@")){
+            throw new EmailFormatException();
+        }
         userService.createUser(usersRequest.getName(),usersRequest.getPassword(),usersRequest.getNickname(),usersRequest.getEmail());
     }
 
     @PostMapping("/user/login")
-
     public ResponseEntity<ApiResponse> login(@RequestBody UserLogInRequest usersLogInRequest) {
         if (!usersLogInRequest.getEmail().contains("@")) {
             throw new EmailFormatException();
